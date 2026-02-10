@@ -1,32 +1,20 @@
-import { ButtonHTMLAttributes } from "react";
-import clsx from "clsx";
+"use client";
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary";
-  label: string; // required a11y label
-};
-
-export function Button({
-  variant = "primary",
-  className,
-  label,
-  children,
-  ...props
-}: Props) {
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset: () => void;
+}) {
   return (
-    <button
-      aria-label={label}
-      className={clsx(
-        "px-4 py-2 rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2",
-        variant === "primary" &&
-          "bg-black text-white hover:bg-gray-800 focus:ring-black",
-        variant === "secondary" &&
-          "bg-gray-200 hover:bg-gray-300 focus:ring-gray-400",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </button>
+    <div style={{ padding: 20 }}>
+      <h2>Something went wrong</h2>
+      <pre>{error.message}</pre>
+
+      <button onClick={() => reset()}>
+        Try again
+      </button>
+    </div>
   );
 }
