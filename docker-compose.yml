@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: lekhak-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: lekhak
+      POSTGRES_PASSWORD: lekhakpass
+      POSTGRES_DB: lekhakdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
