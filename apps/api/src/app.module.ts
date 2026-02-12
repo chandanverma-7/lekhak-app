@@ -16,6 +16,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { HealthController } from './health/health.controller';
+import { AuthModule } from './auth/auth.module';
+import { PrismaService } from "./prisma/prisma.service";
+import { PrismaModule } from "./prisma/prisma.module";
 
 
 @Module({
@@ -33,8 +36,13 @@ import { HealthController } from './health/health.controller';
   ],
 }),
 
+
+    PrismaModule,
+    AuthModule,
+
   ],
-  controllers: [HealthController]
+  controllers: [HealthController],
+  providers: [PrismaService],
 
 })
 export class AppModule implements NestModule {

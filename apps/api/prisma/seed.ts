@@ -1,24 +1,14 @@
-import "dotenv/config"
-// import { PrismaClient } from "@prisma/client"
-import { PrismaClient } from "../generated/prisma/client"
-import { PgAdapter } from "@prisma/adapter-pg"
+import "dotenv/config";
+import { PrismaClient } from "@prisma/client";
 
-import { createPgAdapter } from "@prisma/adapter-pg"
-
-const adapter = createPgAdapter({
-  connectionString: process.env.DATABASE_URL!,
-})
-
-const prisma = new PrismaClient({ adapter })
-
-
+const prisma = new PrismaClient();
 
 async function main() {
   const user = await prisma.user.create({
     data: {
       email: "demo@lekhak.app",
       name: "Demo User",
-      password: "hashed_password_here",
+      password: "demo123456", // later we hash in auth flow
     },
   });
 
@@ -36,5 +26,10 @@ async function main() {
 }
 
 main()
-  .catch(console.error)
-  .finally(() => prisma.$disconnect());
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
